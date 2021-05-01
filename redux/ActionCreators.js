@@ -11,12 +11,16 @@ export const removeProductFromCart = id => ({
     payload: id
 })
 
-export const addQuantity = id => ({
+export const increaseProductQuantity = id => ({
     type: ActionTypes.ADD_QUANTITY,
     payload: id
 })
 
-export const removeQuantity = id => ({
-    type: ActionTypes.REMOVE_PRODUCT,
+export const decreaseProductQuantity = id => ({
+    type: ActionTypes.SUBTRACT_QUANTITY,
     payload: id
+})
+
+export const addingUpQuantity = () => ({
+    type: ActionTypes.ADDING_UP_QUANTITY
 })

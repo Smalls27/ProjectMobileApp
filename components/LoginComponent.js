@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { Card, Input, Button } from "react-native-elements";
-import { render } from "react-dom";
+import { Card, Button, Input } from "react-native-elements";
 
 const style = StyleSheet.create({
     someMargin: {
@@ -32,12 +31,44 @@ const style = StyleSheet.create({
 });
 
 class Login extends Component {
-    
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: " ",
+            password: " ",
+            emailErr: " ",
+            passwordErr: " ",
+            emailInput: React.createRef(),
+            passwordInput: React.createRef()
+        }
+        this.handleLogin = this.handleLogin.bind(this)
+    }
     static navigationOptions = {
         title: "Login"
     }
 
+    handleLogin() {
+        const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        
+        if (regex.test(this.state.email) && this.state.password.length >= 7) {
+            this.props.navigation.navigate("Products")
+        } 
+            
+        if (!regex.test(this.state.email)) {
+            this.setState({emailErr: "Email you entered must be a valid email."})
+        } else {
+            this.setState({emailErr: " "})
+        }
+
+        if (this.state.password.length < 7) {
+            this.setState({passwordErr: "Password must be at least 7 characters long."})
+        } else {
+            this.setState({passwordErr: " "})
+        }
+    }
+
     render() {
+
         const { navigate } = this.props.navigation;
         return (
             <View>
@@ -45,19 +76,25 @@ class Login extends Component {
                     <Text style={style.titleScreen}>RGM</Text>
                 </View>
                 <Card title="Log-in" containerStyle={style.someMargin}>
-                    <Input 
+                    <Input
+                        ref={this.state.emailInput} 
                         placeholder="Email"
+                        onChangeText={text => this.setState({email: text})}
                         leftIcon={{type: "font-awesome", name: "envelope"}}
-                        leftIconContainerStyle={{paddingRight: 10}} 
+                        leftIconContainerStyle={{paddingRight: 10}}
+                        errorMessage={this.state.emailErr} 
                     />
-                    <Input 
+                    <Input
+                        ref={this.state.passwordInput}
                         placeholder="Password"
+                        onChangeText={text => this.setState({password: text})} 
                         leftIcon={{type: "font-awesome", name: "key"}}
                         leftIconContainerStyle={{paddingRight: 10}} 
+                        errorMessage={this.state.passwordErr}
                     />
                     <Button 
                         title="Log-in"
-                        onPress={() => navigate("Products")} 
+                        onPress={() => this.handleLogin()} 
                     />
                     <Button 
                         title="Create account here" 
