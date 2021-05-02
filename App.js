@@ -4,6 +4,7 @@ import Login from "./components/LoginComponent";
 import Products from "./components/ProductComponent";
 import CreateAccount from "./components/CreateAccountComponent";
 import ProductCart from "./components/ProductCartComponent";
+import Credential from "./components/CrendentialComponent";
 import { Provider } from "react-redux";
 import { ConfigureStore } from "./redux/configureStore";
 import { createStackNavigator } from "react-navigation-stack";
@@ -12,47 +13,50 @@ import { createDrawerNavigator, DrawerItems } from "react-navigation-drawer";
 import { Icon, Text } from "react-native-elements";
 
 export default function App() {
-  const LoginNavigator = createStackNavigator(
-    {
-      Login: {screen: Login}
-    },
-    {
-      defaultNavigationOptions: ({navigation}) => ({
-        headerStyle: {
-          backgroundColor: 'rgba(0, 135, 255, .6)'
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            color: '#fff'
-        },
-        headerLeft: <Icon type="font-awesome-5" name="sign-in-alt" iconStyle={{marginLeft: 20}} onPress={() => navigation.toggleDrawer()} />
-      })
-    }
-  );
-  
-  const CreateAccountNavigator = createStackNavigator(
-    {
-      CreateAccount: {screen: CreateAccount}
-    },
-    {
-      defaultNavigationOptions: ({navigation}) => ({
-        headerStyle: {
-          backgroundColor: 'rgba(0, 135, 255, .6)'
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            color: '#fff'
-        },
-        headerLeft: <Icon type="font-awesome-5" name="file" iconStyle={{marginLeft: 25}} onPress={() => navigation.toggleDrawer()} />
-      })
-    }
-  );
+  // const LoginNavigator = createStackNavigator(
+  //   {
+  //     Login: {screen: Login},
+  //     CreateAccount: {screen: CreateAccount},
+  //     Credential: {screen: Credential}
+  //   },
+  //   {
+  //     initialRouteName: "Login",
+  //     defaultNavigationOptions: ({navigation}) => ({
+  //       headerStyle: {
+  //         backgroundColor: 'rgba(0, 135, 255, .6)'
+  //       },
+  //       headerTintColor: '#fff',
+  //       headerTitleStyle: {
+  //           color: '#fff'
+  //       }
+  //     })
+  //   }
+  // );
 
   const ProductsNavigator = createStackNavigator(
     {
-      Products: {screen: Products}
+      Products: {
+        screen: Products,
+      navigationOptions: ({navigation}) => ({
+        headerLeft: <Icon type="font-awesome-5" 
+                          name="box-open" 
+                          iconStyle={{marginLeft: 20}} 
+                          onPress={() => navigation.toggleDrawer()}
+                    />,
+        headerRight: <Icon type="font-awesome-5" 
+                            name="shopping-basket" 
+                            iconStyle={{marginRight: 20}} 
+                            onPress={() => navigation.navigate("Cart")} 
+                      /> 
+      })
+      },
+      Login: {screen: Login},
+      CreateAccount: {screen: CreateAccount},
+      Credential: {screen: Credential},
+      Cart: {screen: ProductCart}
     },
     {
+      initialRouteName: "Login",
       defaultNavigationOptions: ({navigation}) => ({
         headerStyle: {
           backgroundColor: 'rgba(0, 135, 255, .6)'
@@ -60,26 +64,7 @@ export default function App() {
         headerTintColor: '#fff',
         headerTitleStyle: {
           color: '#fff'
-        },
-        headerLeft: <Icon type="font-awesome-5" name="box-open" iconStyle={{marginLeft: 20}} onPress={() => navigation.toggleDrawer()} />
-      })
-    }
-  );
-
-  const CartNavigator = createStackNavigator(
-    {
-      Cart: {screen: ProductCart}
-    },
-    {
-      defaultNavigationOptions: ({navigation}) => ({
-        headerStyle: {
-          backgroundColor: 'rgba(0, 135, 255, .6)'
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            color: '#fff'
-        },
-        headerLeft: <Icon type="font-awesome-5" name="list" iconStyle={{marginLeft: 20}} onPress={() => navigation.toggleDrawer()} />
+        }
       })
     }
   );
@@ -97,39 +82,12 @@ export default function App() {
 
   const MainNavigator = createDrawerNavigator(
     {
-      Login: {
-        screen: LoginNavigator,
-        navigationOptions: {
-          drawerIcon: <Icon type="font-awesome-5" 
-                            name="sign-in-alt" 
-                            size={24}
-                      />
-        }
-      },
-      CreateAccount: {
-        screen: CreateAccountNavigator,
-        navigationOptions: {
-          drawerIcon: <Icon type="font-awesome-5" 
-                            name="file" 
-                            size={24}
-                      />
-        }
-      },
       Products: {
         screen: ProductsNavigator,
         navigationOptions: {
           drawerIcon: <Icon type="font-awesome-5" 
                             name="box-open" 
                             size={19}
-                      />
-        }
-      },
-      Cart: {
-        screen: CartNavigator,
-        navigationOptions: {
-          drawerIcon: <Icon type="font-awesome-5" 
-                            name="list" 
-                            size={24}
                       />
         }
       }

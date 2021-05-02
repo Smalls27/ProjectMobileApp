@@ -1,7 +1,9 @@
 export const ADD_PRODUCT = "ADD_PRODUCT";
 export const REMOVE_PRODUCT = "REMOVE_PRODUCT";
+export const CLEAR_CART = "CLEAR_CART";
 
 export const ADD_QUANTITY = "ADD_QUANTITY";
 export const SUBTRACT_QUANTITY = "SUBTRACT_QUANTITY";
-export const ADDING_UP_QUANTITY = "ADDING_UP_QUANTITY";
+
+export const COLOR_CHANGE = "COLOR_CHANGE";
 

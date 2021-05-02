@@ -5,7 +5,8 @@ export const initialState = {
     products: PRODUCTS,
     addedProductsToBuy: [],
     total: 0,
-    totalQuantity: 0
+    totalQuantity: 0,
+    color: "rgba(41, 118, 198, .7)"
 }
 
 export const reducer = (state = initialState, action) => {
@@ -49,13 +50,22 @@ export const reducer = (state = initialState, action) => {
                 return {...state, addedProductsToBuy: leftOverProduct, total: adjustedPrice}
             }
             return {...state, total: modifiedPrice}
+        
+        case ActionTypes.COLOR_CHANGE:
+            const buttonColorToChange = state.products.find(product => product.id === action.payload)
+            buttonColorToChange.color = "black"
+            return {...state, color: buttonColorToChange.color}
 
-        case ActionTypes.ADDING_UP_QUANTITY:
-            const quantityList = state.addedProductsToBuy.map(product => product.quantity);
-            const totalQuantityAmount = state.totalQuantity + quantityList.reduce((a, b) => a + b)
+        case ActionTypes.CLEAR_CART:
+            const buttonThatWerePressed = state.products.filter(product => product.wasPressed === false)
+            const productsToClearOut = state.addedProductsToBuy.filter(product => product.wasPressed === true)
+            const zeroCartPrice = state.total - state.total
+            if (buttonThatWerePressed) {
+                return {...state, products: state.products}
+            }
 
-            return {...state, totalQuantity: totalQuantityAmount}
-            
+            return {...state, addedProductsToBuy: productsToClearOut, total: zeroCartPrice}
+
         default:
             return state
     }

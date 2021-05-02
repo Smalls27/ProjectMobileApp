@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Card, Button, Input } from "react-native-elements";
 
+
 const style = StyleSheet.create({
     someMargin: {
         marginTop: 50
@@ -102,7 +103,7 @@ class Login extends Component {
                         onPress={() => navigate("CreateAccount")} 
                     />
                 </Card>
-                <Button buttonStyle={style.center} title="Click to retrieve Email/Password" />
+                <Button buttonStyle={style.center} title="Click to retrieve Email/Password" onPress={() => navigate("Credential")} />
             </View>
         )
     }

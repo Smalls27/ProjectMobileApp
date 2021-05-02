@@ -11,6 +11,10 @@ export const removeProductFromCart = id => ({
     payload: id
 })
 
+export const clearCart = () => ({
+    type: ActionTypes.CLEAR_CART
+})
+
 export const increaseProductQuantity = id => ({
     type: ActionTypes.ADD_QUANTITY,
     payload: id
@@ -21,6 +25,7 @@ export const decreaseProductQuantity = id => ({
     payload: id
 })
 
-export const addingUpQuantity = () => ({
-    type: ActionTypes.ADDING_UP_QUANTITY
+export const colorChange = id => ({
+    type: ActionTypes.COLOR_CHANGE,
+    payload: id
 })

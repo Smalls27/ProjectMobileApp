@@ -1,17 +1,19 @@
 import React, { Component } from "react";
-import { addProductToCart } from "../redux/ActionCreators";
+import { addProductToCart, colorChange } from "../redux/ActionCreators";
 import { connect } from "react-redux";
 import { Card, Button, Icon } from "react-native-elements";
 import { ScrollView, Text, View } from "react-native";
 
 const mapStateToProps = state => {
     return {
-        products: state.products
+        products: state.products,
+        color: state.color,
     }
 }
 
 const mapDispatchToProps = {
-    addProductToCart: id => addProductToCart(id)
+    addProductToCart: id => addProductToCart(id),
+    colorChange: id => colorChange(id)
 }
 
 const Greeting = () => {
@@ -28,13 +30,26 @@ const Greeting = () => {
 }
 
 class Products extends Component {
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            pressed: false
+        }
+    }
+    
     static navigationOptions = {
         title: "Products"
     }
 
     handleCartSubmit(id) {
         this.props.addProductToCart(id)
+        this.props.colorChange(id)
+    }
+
+    wasPressed(wasPressed) {
+        if (!wasPressed) {
+            this.setState({pressed: true})
+        }
     }
 
     render() {
@@ -48,7 +63,11 @@ class Products extends Component {
                                         size={13} 
                                         iconStyle={{marginRight: 5}} 
                                     />}
-                            onPress={() => {this.handleCartSubmit(product.id)}} 
+                            onPress={() => 
+                                {this.wasPressed(product.wasPressed),
+                                this.handleCartSubmit(product.id)}}
+                            buttonStyle={{backgroundColor: 
+                                this.state.pressed === product.wasPressed ? this.props.color : product.color}}
                             />
                             
                 </Card>

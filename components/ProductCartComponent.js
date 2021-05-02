@@ -2,7 +2,8 @@ import React, { Component, useState } from "react";
 import { View, Text, ScrollView, StyleSheet, Modal } from "react-native";
 import { Button, Icon, Card, Input } from "react-native-elements";
 import { connect } from "react-redux";
-import { removeProductFromCart, increaseProductQuantity, decreaseProductQuantity, addingUpQuantity } from "../redux/ActionCreators";
+import { removeProductFromCart, increaseProductQuantity, 
+    decreaseProductQuantity, addingUpQuantity, clearCart } from "../redux/ActionCreators";
 
 const mapStateToProps = state => {
     return {
@@ -15,11 +16,17 @@ const mapDispatchToProps = {
     removeProductFromCart: id => removeProductFromCart(id),
     increaseProductQuantity: id => increaseProductQuantity(id),
     decreaseProductQuantity: id => decreaseProductQuantity(id),
-    addingUpQuantity: () => addingUpQuantity()
+    addingUpQuantity: () => addingUpQuantity(),
+    clearCart: () => clearCart()
 }
 
 const TotalSpend = (props) => {
     const [showModal, setShowModal] = useState(false);
+
+    function clearCart() {
+        props.clear()
+    }
+
     const buyingProducts = props.productsToBuy.map(product => {
         return (
             <View style={style.checkoutList}>
@@ -39,7 +46,7 @@ const TotalSpend = (props) => {
                     onPress={() => setShowModal(true)}
             />
             <Modal transparent={false} visible={showModal} animationType="slide" onRequestClose={() => setShowModal(false)}>
-                <View style={{marginTop: 30}}>
+                <ScrollView style={{marginTop: 30}}>
                     <View style={style.shadow} >
                         {buyingProducts}
                     </View>
@@ -73,7 +80,11 @@ const TotalSpend = (props) => {
                         <Button title="Buy" 
                                 icon={<Icon type="font-awesome-5" name="coins" iconStyle={{marginRight: 8}} />}
                                 buttonStyle={{marginLeft: 10, marginRight: 10, marginBottom: 10}}
-                                onPress={() => props.navigate.navigate("Products")}
+                                onPress={() => {
+                                                clearCart(),
+                                                setShowModal(false),
+                                                props.navigate.navigate("Products")
+                                            }}
 
                         />
                         <Button title="Cancel" 
@@ -81,7 +92,7 @@ const TotalSpend = (props) => {
                                 buttonStyle={{backgroundColor: "black", marginLeft: 10, marginRight: 10}}
                         />
                     </Card> 
-                </View>
+                </ScrollView>
             </Modal>
         </View>
     )
@@ -145,6 +156,7 @@ class ProductCart extends Component {
                             productsToBuy={this.props.addedProductsToBuy} 
                             totalQuantity={this.props.totalQuantity}
                             navigate={this.props.navigation}
+                            clear={this.props.clearCart}
                 />
                 {productsToBuy}
             </ScrollView>
