@@ -57,15 +57,10 @@ export const reducer = (state = initialState, action) => {
             return {...state, color: buttonColorToChange.color}
 
         case ActionTypes.CLEAR_CART:
-            const buttonThatWerePressed = state.products.filter(product => product.wasPressed === false)
             const productsToClearOut = state.addedProductsToBuy.filter(product => product.wasPressed === true)
             const zeroCartPrice = state.total - state.total
-            if (buttonThatWerePressed) {
-                return {...state, products: state.products}
-            }
-
             return {...state, addedProductsToBuy: productsToClearOut, total: zeroCartPrice}
-
+        
         default:
             return state
     }

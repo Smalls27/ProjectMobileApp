@@ -3,10 +3,11 @@ import { View, Text, ScrollView, StyleSheet, Modal } from "react-native";
 import { Button, Icon, Card, Input } from "react-native-elements";
 import { connect } from "react-redux";
 import { removeProductFromCart, increaseProductQuantity, 
-    decreaseProductQuantity, addingUpQuantity, clearCart } from "../redux/ActionCreators";
+    decreaseProductQuantity, addingUpQuantity, clearCart, resetProductList } from "../redux/ActionCreators";
 
 const mapStateToProps = state => {
     return {
+        products: state.products,
         addedProductsToBuy: state.addedProductsToBuy,
         total: state.total,
     }
